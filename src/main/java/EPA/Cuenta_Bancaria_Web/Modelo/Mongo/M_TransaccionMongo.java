@@ -1,8 +1,5 @@
 package EPA.Cuenta_Bancaria_Web.Modelo.Mongo;
 
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cuenta;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;

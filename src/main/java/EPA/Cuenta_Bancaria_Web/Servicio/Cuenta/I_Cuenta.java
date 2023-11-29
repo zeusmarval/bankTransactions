@@ -1,7 +1,6 @@
 package EPA.Cuenta_Bancaria_Web.Servicio.Cuenta;
 
 import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cuenta_DTO;
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cuenta;
 
 import java.util.List;
 

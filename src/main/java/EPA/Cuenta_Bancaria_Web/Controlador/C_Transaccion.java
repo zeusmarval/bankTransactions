@@ -1,18 +1,18 @@
 package EPA.Cuenta_Bancaria_Web.Controlador;
 
-import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cuenta_DTO;
 import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Transaccion_DTO;
 import EPA.Cuenta_Bancaria_Web.Modelo.Enum_Tipos_Deposito;
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cuenta;
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Transaccion;
 import EPA.Cuenta_Bancaria_Web.Servicio.Transaccion.I_Transaccion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,12 +24,14 @@ public class C_Transaccion
     I_Transaccion transaccion;
 
     @GetMapping(value = "/listar_transacciones")
-    public ResponseEntity<List<M_Transaccion_DTO>> listar_transacciones()
+    public Flux<M_Transaccion_DTO> listar_transacciones()
     {
-        List<M_Transaccion_DTO> l_Transacciones = transaccion.findAll();
-        return ResponseEntity.ok(l_Transacciones);
+        return transaccion.findAll();
+        //return ServerResponse
+          //      .ok().contentType(MediaType.APPLICATION_JSON)
+            //    .body(BodyInserters.fromPublisher(transaccion.findAll(), M_Transaccion_DTO.class));
     }
-
+/*
     @PostMapping(value = "/Crear/Deposito/Cajero/{id_Cuenta}/{monto}")
     public ResponseEntity<?> Procesar_Deposito_Cajero(@PathVariable String id_Cuenta,
                                                       @PathVariable BigDecimal monto)
@@ -56,6 +58,6 @@ public class C_Transaccion
 
         return ResponseEntity.ok(transaccion_Creada);
     }
-
+*/
 
 }

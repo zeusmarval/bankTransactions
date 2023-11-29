@@ -1,6 +1,5 @@
 package EPA.Cuenta_Bancaria_Web.Modelo.DTO;
 
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cuenta;
 import lombok.Data;
 
 import java.math.BigDecimal;

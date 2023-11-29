@@ -1,7 +1,7 @@
 package EPA.Cuenta_Bancaria_Web.Modelo.Mongo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
+
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("M_ClienteMongo")

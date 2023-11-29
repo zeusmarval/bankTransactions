@@ -1,14 +1,10 @@
 package EPA.Cuenta_Bancaria_Web.Modelo.Mongo;
 
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cliente;
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Transaccion;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
+
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Document("M_CuentaMongo")
 public class M_CuentaMongo

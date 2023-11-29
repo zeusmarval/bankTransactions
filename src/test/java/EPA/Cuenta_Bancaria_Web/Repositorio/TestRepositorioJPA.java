@@ -1,21 +1,12 @@
 package EPA.Cuenta_Bancaria_Web.Repositorio;
 
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cliente;
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cuenta;
-import EPA.Cuenta_Bancaria_Web.Modelo.Mongo.M_ClienteMongo;
-import EPA.Cuenta_Bancaria_Web.Modelo.Mongo.M_CuentaMongo;
 import EPA.Cuenta_Bancaria_Web.Repositorio.JPA.I_Repositorio_Cuenta_JPA;
 import EPA.Cuenta_Bancaria_Web.Repositorio.JPA.I_Repositorio_Transaccion_JPA;
-import EPA.Cuenta_Bancaria_Web.Repositorio.Mongo.I_RepositorioCuentaMongo;
-import EPA.Cuenta_Bancaria_Web.Repositorio.Mongo.I_Repositorio_TransaccionMongo;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.util.Optional;

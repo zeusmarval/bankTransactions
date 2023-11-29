@@ -1,13 +1,10 @@
 package EPA.Cuenta_Bancaria_Web.Servicios;
 
 import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cuenta_DTO;
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cliente;
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cuenta;
 import EPA.Cuenta_Bancaria_Web.Modelo.Mongo.M_ClienteMongo;
 import EPA.Cuenta_Bancaria_Web.Modelo.Mongo.M_CuentaMongo;
 import EPA.Cuenta_Bancaria_Web.Repositorio.Mongo.I_RepositorioCuentaMongo;
 import EPA.Cuenta_Bancaria_Web.Servicio.Cuenta.Cuenta_ImpMongo;
-import EPA.Cuenta_Bancaria_Web.Servicio.Cuenta.I_Cuenta;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @ExtendWith(MockitoExtension.class)

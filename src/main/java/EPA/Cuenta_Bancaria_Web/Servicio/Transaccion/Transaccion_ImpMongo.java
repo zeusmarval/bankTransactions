@@ -4,17 +4,14 @@ import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cliente_DTO;
 import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cuenta_DTO;
 import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Transaccion_DTO;
 import EPA.Cuenta_Bancaria_Web.Modelo.Enum_Tipos_Deposito;
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cuenta;
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Transaccion;
 import EPA.Cuenta_Bancaria_Web.Modelo.Mongo.M_CuentaMongo;
 import EPA.Cuenta_Bancaria_Web.Modelo.Mongo.M_TransaccionMongo;
-import EPA.Cuenta_Bancaria_Web.Repositorio.JPA.I_Repositorio_Cuenta_JPA;
-import EPA.Cuenta_Bancaria_Web.Repositorio.JPA.I_Repositorio_Transaccion_JPA;
 import EPA.Cuenta_Bancaria_Web.Repositorio.Mongo.I_RepositorioCuentaMongo;
 import EPA.Cuenta_Bancaria_Web.Repositorio.Mongo.I_Repositorio_TransaccionMongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,7 +26,7 @@ public class Transaccion_ImpMongo implements I_Transaccion
 
     @Autowired
     I_RepositorioCuentaMongo cuenta_repositorio;
-
+/*
     @Override
     public M_Transaccion_DTO Procesar_Deposito(String id_Cuenta, Enum_Tipos_Deposito tipo, BigDecimal monto)
     {
@@ -87,31 +84,25 @@ public class Transaccion_ImpMongo implements I_Transaccion
 
         return dtoCreado;
     }
-
+*/
     @Override
-    public List<M_Transaccion_DTO> findAll()
+    public Flux<M_Transaccion_DTO> findAll()
     {
-        List<M_TransaccionMongo> l_transacciones = transaccion_repositorio.findAll();
-        List<M_Transaccion_DTO> l_transacciones_DTO = new ArrayList<M_Transaccion_DTO>();
-
-        for(M_TransaccionMongo c : l_transacciones)
-        {
-            M_Transaccion_DTO dtoCreado = new M_Transaccion_DTO(c.getId(),
-                    new M_Cuenta_DTO(c.getCuenta().getId(),
-                            new M_Cliente_DTO(c.getCuenta().getCliente().getId(),
-                                    c.getCuenta().getCliente().getNombre()
+        return transaccion_repositorio.findAll()
+                .map(transaccion -> {
+                    return new M_Transaccion_DTO(transaccion.getId(),
+                            new M_Cuenta_DTO(transaccion.getCuenta().getId(),
+                                    new M_Cliente_DTO(transaccion.getCuenta().getCliente().getId(),
+                                            transaccion.getCuenta().getCliente().getNombre()
+                                    ),
+                                    transaccion.getCuenta().getSaldo_Global()
                             ),
-                            c.getCuenta().getSaldo_Global()
-                    ), c.getMonto_transaccion(),
-                    c.getSaldo_inicial(),
-                    c.getSaldo_final(),
-                    c.getCosto_tansaccion(),
-                    c.getTipo()
-            );
-
-            l_transacciones_DTO.add(dtoCreado);
-        }
-
-        return l_transacciones_DTO;
+                            transaccion.getMonto_transaccion(),
+                            transaccion.getSaldo_inicial(),
+                            transaccion.getSaldo_final(),
+                            transaccion.getCosto_tansaccion(),
+                            transaccion.getTipo()
+                    );
+                });
     }
 }

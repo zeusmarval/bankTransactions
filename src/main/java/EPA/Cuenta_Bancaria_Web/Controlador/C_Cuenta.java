@@ -1,12 +1,10 @@
 package EPA.Cuenta_Bancaria_Web.Controlador;
 
 import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cuenta_DTO;
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cuenta;
 import EPA.Cuenta_Bancaria_Web.Servicio.Cuenta.I_Cuenta;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +16,7 @@ import java.util.List;
 @RequestMapping("Cuentas")
 public class C_Cuenta
 {
+    /*
     @Autowired
     @Qualifier("MONGO")
     I_Cuenta cuenta;
@@ -38,5 +37,5 @@ public class C_Cuenta
     }
 
 
-
+*/
 }

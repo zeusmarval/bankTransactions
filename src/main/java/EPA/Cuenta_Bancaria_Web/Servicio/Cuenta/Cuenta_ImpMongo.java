@@ -2,11 +2,8 @@ package EPA.Cuenta_Bancaria_Web.Servicio.Cuenta;
 
 import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cliente_DTO;
 import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cuenta_DTO;
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cliente;
-import EPA.Cuenta_Bancaria_Web.Modelo.M_Cuenta;
 import EPA.Cuenta_Bancaria_Web.Modelo.Mongo.M_ClienteMongo;
 import EPA.Cuenta_Bancaria_Web.Modelo.Mongo.M_CuentaMongo;
-import EPA.Cuenta_Bancaria_Web.Repositorio.JPA.I_Repositorio_Cuenta_JPA;
 import EPA.Cuenta_Bancaria_Web.Repositorio.Mongo.I_RepositorioCuentaMongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+public class Cuenta_ImpMongo{}
+
+/*
 @Service()
 @Qualifier("MONGO")
 public class Cuenta_ImpMongo implements I_Cuenta
@@ -64,3 +64,4 @@ public class Cuenta_ImpMongo implements I_Cuenta
         return l_Cuentas_DTO;
     }
 }
+*/
