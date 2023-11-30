@@ -1,4 +1,4 @@
-package EPA.Cuenta_Bancaria_Web.Modelo;
+package EPA.Cuenta_Bancaria_Web.models;
 
 public enum Enum_Tipos_Deposito
 {

@@ -1,4 +1,4 @@
-package EPA.Cuenta_Bancaria_Web.Modelo.DTO;
+package EPA.Cuenta_Bancaria_Web.models.DTO;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

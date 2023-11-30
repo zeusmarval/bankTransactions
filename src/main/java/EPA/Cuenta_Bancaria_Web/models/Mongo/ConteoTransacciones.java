@@ -1,4 +1,4 @@
-package EPA.Cuenta_Bancaria_Web.Modelo.Mongo;
+package EPA.Cuenta_Bancaria_Web.models.Mongo;
 
 public class ConteoTransacciones
 {

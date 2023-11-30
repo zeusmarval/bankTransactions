@@ -1,4 +1,4 @@
-package EPA.Cuenta_Bancaria_Web.Modelo.DTO;
+package EPA.Cuenta_Bancaria_Web.models.DTO;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
@@ -29,5 +29,14 @@ public class M_Cuenta_DTO
         this.id = id;
         this.cliente = cliente;
         this.saldo_Global = saldo_Global;
+    }
+
+    @Override
+    public String toString() {
+        return "M_Cuenta_DTO{" +
+                "id='" + id + '\'' +
+                ", cliente=" + cliente +
+                ", saldo_Global=" + saldo_Global +
+                '}';
     }
 }

@@ -1,7 +1,7 @@
-package EPA.Cuenta_Bancaria_Web.Controlador;
+package EPA.Cuenta_Bancaria_Web.handlers.controllers;
 
-import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cuenta_DTO;
-import EPA.Cuenta_Bancaria_Web.Servicio.Cuenta.I_Cuenta;
+import EPA.Cuenta_Bancaria_Web.models.DTO.M_Cuenta_DTO;
+import EPA.Cuenta_Bancaria_Web.services.Cuenta.I_Cuenta;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,8 +9,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 @Validated
 @RestController

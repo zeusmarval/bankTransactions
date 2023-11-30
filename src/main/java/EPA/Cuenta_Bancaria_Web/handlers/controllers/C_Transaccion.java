@@ -1,20 +1,15 @@
-package EPA.Cuenta_Bancaria_Web.Controlador;
+package EPA.Cuenta_Bancaria_Web.handlers.controllers;
 
-import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Transaccion_DTO;
-import EPA.Cuenta_Bancaria_Web.Modelo.Enum_Tipos_Deposito;
-import EPA.Cuenta_Bancaria_Web.Servicio.Transaccion.I_Transaccion;
+import EPA.Cuenta_Bancaria_Web.models.DTO.M_Transaccion_DTO;
+import EPA.Cuenta_Bancaria_Web.models.Enum_Tipos_Deposito;
+import EPA.Cuenta_Bancaria_Web.services.Transaccion.I_Transaccion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @RestController
 @RequestMapping("Transacciones")

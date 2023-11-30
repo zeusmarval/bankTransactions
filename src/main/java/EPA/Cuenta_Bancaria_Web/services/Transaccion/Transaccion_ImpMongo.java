@@ -1,23 +1,19 @@
-package EPA.Cuenta_Bancaria_Web.Servicio.Transaccion;
+package EPA.Cuenta_Bancaria_Web.services.Transaccion;
 
-import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cliente_DTO;
-import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cuenta_DTO;
-import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Transaccion_DTO;
-import EPA.Cuenta_Bancaria_Web.Modelo.Enum_Tipos_Deposito;
-import EPA.Cuenta_Bancaria_Web.Modelo.Mongo.M_CuentaMongo;
-import EPA.Cuenta_Bancaria_Web.Modelo.Mongo.M_TransaccionMongo;
-import EPA.Cuenta_Bancaria_Web.Repositorio.Mongo.I_RepositorioCuentaMongo;
-import EPA.Cuenta_Bancaria_Web.Repositorio.Mongo.I_Repositorio_TransaccionMongo;
+import EPA.Cuenta_Bancaria_Web.models.DTO.M_Cliente_DTO;
+import EPA.Cuenta_Bancaria_Web.models.DTO.M_Cuenta_DTO;
+import EPA.Cuenta_Bancaria_Web.models.DTO.M_Transaccion_DTO;
+import EPA.Cuenta_Bancaria_Web.models.Enum_Tipos_Deposito;
+import EPA.Cuenta_Bancaria_Web.models.Mongo.M_TransaccionMongo;
+import EPA.Cuenta_Bancaria_Web.drivenAdapters.repositorios.I_RepositorioCuentaMongo;
+import EPA.Cuenta_Bancaria_Web.drivenAdapters.repositorios.I_Repositorio_TransaccionMongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Qualifier("MONGO")
@@ -57,7 +53,19 @@ public class Transaccion_ImpMongo implements I_Transaccion
                             costo,
                             tipo.toString()
                     );
-                    cuenta_repositorio.save(cuenta).subscribe();
+                    cuenta_repositorio.save(cuenta)
+                            .flatMap(cuentaCreada -> Mono.error(new RuntimeException("Mensaje de pueba")))
+                            .onErrorResume(error -> {
+                                System.out.println("El error fue: " + error.getMessage());
+                                /**
+                                 * Crear objeto de resiliencia que contenga la cuenta y la
+                                 * transacción para enviar a una nueva cola de Rabbit con un
+                                 * nuevo routing key.
+                                 *
+                                 * Crear un handler que consuma esa cola y borrar los registros ya guardados
+                                 * */
+                            })
+                            .subscribe();
                     return transaccion_repositorio.save(transaccion);
                 }).map(transactionModel -> {
                     return new M_Transaccion_DTO(transactionModel.getId(),

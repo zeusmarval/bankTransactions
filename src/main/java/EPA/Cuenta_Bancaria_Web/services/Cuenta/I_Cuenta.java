@@ -1,10 +1,8 @@
-package EPA.Cuenta_Bancaria_Web.Servicio.Cuenta;
+package EPA.Cuenta_Bancaria_Web.services.Cuenta;
 
-import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cuenta_DTO;
+import EPA.Cuenta_Bancaria_Web.models.DTO.M_Cuenta_DTO;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 public interface I_Cuenta
 {

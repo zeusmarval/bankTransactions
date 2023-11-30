@@ -1,11 +1,12 @@
-package EPA.Cuenta_Bancaria_Web.Servicio.Cuenta;
+package EPA.Cuenta_Bancaria_Web.services.Cuenta;
 
-import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cliente_DTO;
-import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Cuenta_DTO;
-import EPA.Cuenta_Bancaria_Web.Modelo.Mongo.M_ClienteMongo;
-import EPA.Cuenta_Bancaria_Web.Modelo.Mongo.M_CuentaMongo;
+import EPA.Cuenta_Bancaria_Web.drivenAdapters.bus.RabbitMqPublisher;
+import EPA.Cuenta_Bancaria_Web.models.DTO.M_Cliente_DTO;
+import EPA.Cuenta_Bancaria_Web.models.DTO.M_Cuenta_DTO;
+import EPA.Cuenta_Bancaria_Web.models.Mongo.M_ClienteMongo;
+import EPA.Cuenta_Bancaria_Web.models.Mongo.M_CuentaMongo;
 import EPA.Cuenta_Bancaria_Web.RabbitConfig;
-import EPA.Cuenta_Bancaria_Web.Repositorio.Mongo.I_RepositorioCuentaMongo;
+import EPA.Cuenta_Bancaria_Web.drivenAdapters.repositorios.I_RepositorioCuentaMongo;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,9 +15,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.rabbitmq.OutboundMessage;
 import reactor.rabbitmq.Sender;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Service()
@@ -27,7 +25,7 @@ public class Cuenta_ImpMongo implements I_Cuenta
     I_RepositorioCuentaMongo repositorio_Cuenta;
 
     @Autowired
-    private Gson gson;
+    private RabbitMqPublisher eventBus;
 
     @Autowired
     private Sender sender;
@@ -40,10 +38,8 @@ public class Cuenta_ImpMongo implements I_Cuenta
                         p_Cuenta_DTO.getCliente().getNombre()),
                 p_Cuenta_DTO.getSaldo_Global());
 
-        sender
-                .send(Mono.just(new OutboundMessage(RabbitConfig.EXCHANGE_NAME,
-                        RabbitConfig.ROUTING_KEY_NAME, gson.toJson(p_Cuenta_DTO).getBytes()))).subscribe();
 
+        eventBus.publishMessage(cuenta);
 
         return repositorio_Cuenta.save(cuenta)
                 .map(cuentaModel-> {

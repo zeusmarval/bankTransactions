@@ -1,12 +1,11 @@
-package EPA.Cuenta_Bancaria_Web.Servicio.Transaccion;
+package EPA.Cuenta_Bancaria_Web.services.Transaccion;
 
-import EPA.Cuenta_Bancaria_Web.Modelo.DTO.M_Transaccion_DTO;
-import EPA.Cuenta_Bancaria_Web.Modelo.Enum_Tipos_Deposito;
+import EPA.Cuenta_Bancaria_Web.models.DTO.M_Transaccion_DTO;
+import EPA.Cuenta_Bancaria_Web.models.Enum_Tipos_Deposito;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public interface I_Transaccion
 {

@@ -1,7 +1,6 @@
-package EPA.Cuenta_Bancaria_Web.Modelo.Mongo;
+package EPA.Cuenta_Bancaria_Web.models.Mongo;
 
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
