@@ -11,9 +11,4 @@ import java.util.List;
 
 public interface I_Repositorio_TransaccionMongo extends ReactiveMongoRepository<M_TransaccionMongo, String>
 {
-    /*
-    @Aggregation(pipeline = {})
-    List<ConteoTransacciones> countTransactionsByAccount();
-
-     */
 }

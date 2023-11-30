@@ -5,9 +5,10 @@ import EPA.Cuenta_Bancaria_Web.Servicio.Cuenta.I_Cuenta;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -16,26 +17,20 @@ import java.util.List;
 @RequestMapping("Cuentas")
 public class C_Cuenta
 {
-    /*
+
     @Autowired
     @Qualifier("MONGO")
     I_Cuenta cuenta;
 
     @GetMapping(value = "/listar_cuentas")
-    public  ResponseEntity<List<M_Cuenta_DTO>> listar_cuentas()
+    public Flux<M_Cuenta_DTO> listar_cuentas()
     {
-        List<M_Cuenta_DTO> l_Cuentas = cuenta.findAll();
-
-        return ResponseEntity.ok(l_Cuentas);
+        return cuenta.findAll();
     }
 
     @PostMapping(value = "/Crear")
-    public ResponseEntity<?> Crear_Cuenta(@Valid @RequestBody M_Cuenta_DTO p_cuenta)
+    public Mono<M_Cuenta_DTO> Crear_Cuenta(@Valid @RequestBody M_Cuenta_DTO p_cuenta)
     {
-        M_Cuenta_DTO cuenta_Creada = cuenta.crear_Cuenta(p_cuenta);
-        return ResponseEntity.ok(cuenta_Creada);
+        return cuenta.crear_Cuenta(p_cuenta);
     }
-
-
-*/
 }

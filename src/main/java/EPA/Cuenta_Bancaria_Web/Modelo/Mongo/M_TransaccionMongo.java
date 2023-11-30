@@ -1,10 +1,13 @@
 package EPA.Cuenta_Bancaria_Web.Modelo.Mongo;
 
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 
 @Document("M_TransaccionMongo")
+@Data
 public class M_TransaccionMongo
 {
     private String id;
@@ -32,10 +35,6 @@ public class M_TransaccionMongo
     public M_TransaccionMongo()
     {
 
-    }
-
-    public String getId() {
-        return id;
     }
 
     public void setId(String id) {

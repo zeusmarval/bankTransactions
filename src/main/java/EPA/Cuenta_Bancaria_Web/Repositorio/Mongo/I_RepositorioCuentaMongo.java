@@ -7,5 +7,4 @@ import reactor.core.publisher.Mono;
 
 public interface I_RepositorioCuentaMongo extends ReactiveMongoRepository<M_CuentaMongo, String>
 {
-    public Mono<M_CuentaMongo> findByid(String id);
 }

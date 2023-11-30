@@ -10,8 +10,7 @@ import java.util.List;
 
 public interface I_Transaccion
 {
-    /*
     Mono<M_Transaccion_DTO> Procesar_Deposito(String id_Cuenta, Enum_Tipos_Deposito tipo, BigDecimal monto);
-    */
+
     Flux<M_Transaccion_DTO> findAll();
 }
