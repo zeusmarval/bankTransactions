@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bank-transactions-spring-service
+spec:
+  selector:
+    app: bank-transactions-spring
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8086
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-transactions-spring-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bank-transactions-spring
+  template:
+    metadata:
+      labels:
+        app: bank-transactions-spring
+    spec:
+      containers:
+        - name: bank-transactions-spring
+          image: bank_transactions_spring-bank-transactions-spring:latest
+          ports:
+            - containerPort: 8086
