@@ -36,9 +36,8 @@ public class RabbitConfig {
     public static final String ROUTING_KEY_NAME_ERROR = "errors.routing.key";
     public static final String ROUTING_KEY_NAME_ERROR_TRANSACTIONS = "errors.transactions.routing.key";
     public static final String ROUTING_KEY_NAME_ERROR_ACCOUNTS = "errors.accounts.routing.key";
-    //public static final String URI_NAME = "amqps://jotoppxd:OXipdv5_3evj0aMozQ0N4hvW8jzPG2xF@cow.rmq2.cloudamqp.com/jotoppxd";
     public static final String URI_NAME = "amqps://frrbuzmm:ywSFdD7KMqE6rfoe2osmgX9w_Av74CoJ@cow.rmq2.cloudamqp.com/frrbuzmm";
-    //public static final String URI_NAME = "amqps://guest:guest@rabbitmq/guest";
+    //public static final String URI_NAME = "amqps://guest:guest@rabbitmq";
 
     @Bean
     public AmqpAdmin amqpAdmin() {

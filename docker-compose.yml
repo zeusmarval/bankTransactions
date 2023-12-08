@@ -1,16 +1,19 @@
+# Este docker Compose es para las dos aplicaciones y se ejecuta en una carpeta fuera de ambos proyectos
 version: '3'
 
 services:
 
-#  rabbitmq:
-#    image: "rabbitmq:3-management"
-#    container_name: rabbitmq
-#    ports:
-#      - "5672:5672"
-#      - "15672:15672"
-#    environment:
-#      RABBITMQ_DEFAULT_USER: guest
-#      RABBITMQ_DEFAULT_PASS: guest
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - my-network
 
   mongodb:
     image: mongo
@@ -19,28 +22,35 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-    #depends_on:
-     # - rabbitmq
-#    environment:
-#      - MONGO_INITDB_ROOT_USERNAME=root
-#      - MONGO_INITDB_ROOT_PASSWORD=password
+    networks:
+      - my-network
 
-  bank-transactions-spring:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: bank-transactions-spring
-    #environment:
-      #- MONGO_USERNAME=root
-      #- MONGO_PASSWORD=password
-      #- MONGO_DB=test
-      #- MONGO_HOST=mongodb
-      #- APP_PORT=27017
+  bank-transactions:
+    image: bank-transactions
+    build: ./bank_transactions_spring
+    container_name: bank-transactions
     ports:
       - "8086:8086"
     depends_on:
       - mongodb
-#      - rabbitmq
+    networks:
+      - my-network
+
+  logs-bank:
+    image: log-bank
+    build: ./logsBanking
+    container_name: logs-bank
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+      - bank-transactions
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
 
 volumes:
   mongo-data:
