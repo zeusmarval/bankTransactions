@@ -30,22 +30,20 @@ public class CreateDepositoError {
 
         Mono<M_Transaccion_DTO> resultado = transaccionResource.Procesar_Deposito(idCuenta, tipo, monto);
 
-        final M_Transaccion_DTO[] transaccionDTOContainer = new M_Transaccion_DTO[1];
-
-        return resultado.flatMap(transaccionDTO -> {
-                            transaccionDTOContainer[0] = transaccionDTO;
-
-                            return ServerResponse.status(HttpStatus.CREATED)
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .body(BodyInserters.fromValue(transaccionDTO))
-                                    .switchIfEmpty(ServerResponse.badRequest().build());
-                        }
+        return resultado.flatMap(transaccione -> Mono.error(new RuntimeException("error al crear transacciones")))
+        .flatMap(transaccionDTO ->
+                        ServerResponse.status(HttpStatus.CREATED)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .body(BodyInserters.fromValue(transaccionDTO))
+                                .doOnSuccess(success -> eventBus.publishTransaccions(transaccionDTO))
+                                .switchIfEmpty(ServerResponse.badRequest().build())
                 )
-                .onErrorResume(error -> handleError(error, transaccionDTOContainer[0]));
+                .onErrorResume(this::handleError);
     }
 
-    private Mono<ServerResponse> handleError(Throwable error, M_Transaccion_DTO transaccionDTO) {
-        eventBus.publishError(transaccionDTO);
+    private Mono<ServerResponse> handleError(Throwable error) {
+        eventBus.publishError(error.getMessage());
+
         return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue("Error al procesar el depósito"));

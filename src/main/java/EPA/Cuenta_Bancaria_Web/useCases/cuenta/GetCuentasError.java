@@ -25,7 +25,7 @@ public class GetCuentasError {
     public Mono<ServerResponse> apply(ServerRequest request) {
         Flux<M_CuentaMongo> cuenta = iRepositorioCuentaMongo.findAll();
         return cuenta.collectList()
-                .flatMap(transaccione -> Mono.error(new RuntimeException("error en listar cuentas")))
+                .flatMap(cuentaa -> Mono.error(new RuntimeException("error en listar cuentas")))
                 .flatMap(cuentaList -> {
                             eventBus.publishAll(cuentaList);
                             return ServerResponse.ok()
