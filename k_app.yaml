@@ -28,6 +28,6 @@ spec:
     spec:
       containers:
         - name: bank-transactions-spring
-          image: bank_transactions_spring-bank-transactions-spring:latest
+          image: zeusmarval/bank_transactions_spring-bank-transactions-spring:latest
           ports:
             - containerPort: 8086

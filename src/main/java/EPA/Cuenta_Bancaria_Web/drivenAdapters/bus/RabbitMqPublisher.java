@@ -17,9 +17,38 @@ public class RabbitMqPublisher {
     @Autowired
     private Gson gson;
 
-    public void publishMessage(Object object){
+    public void publishAccounts(Object object){
         sender
                 .send(Mono.just(new OutboundMessage(RabbitConfig.EXCHANGE_NAME,
-                        RabbitConfig.ROUTING_KEY_NAME, gson.toJson(object).getBytes()))).subscribe();
+                        RabbitConfig.ROUTING_KEY_NAME_ACCOUNTS, gson.toJson(object).getBytes()))).subscribe();
+    }
+
+    public void publishAccountsError(Object object){
+        sender
+                .send(Mono.just(new OutboundMessage(RabbitConfig.EXCHANGE_NAME,
+                        RabbitConfig.ROUTING_KEY_NAME_ERROR_ACCOUNTS, gson.toJson(object).getBytes()))).subscribe();
+    }
+
+    public void publishAll(Object object){
+        sender
+                .send(Mono.just(new OutboundMessage(RabbitConfig.EXCHANGE_NAME,
+                        RabbitConfig.ROUTING_KEY_NAME_ALL, gson.toJson(object).getBytes()))).subscribe();
+    }
+
+    public void publishTransaccions(Object object){
+        sender
+                .send(Mono.just(new OutboundMessage(RabbitConfig.EXCHANGE_NAME,
+                        RabbitConfig.ROUTING_KEY_NAME_TRANSACTIONS, gson.toJson(object).getBytes()))).subscribe();
+    }
+    public void publishTransaccionsError(Object object){
+        sender
+                .send(Mono.just(new OutboundMessage(RabbitConfig.EXCHANGE_NAME,
+                        RabbitConfig.ROUTING_KEY_NAME_ERROR_TRANSACTIONS, gson.toJson(object).getBytes()))).subscribe();
+    }
+
+    public void publishError(Object object){
+        sender
+                .send(Mono.just(new OutboundMessage(RabbitConfig.EXCHANGE_NAME,
+                        RabbitConfig.ROUTING_KEY_NAME_ERROR, gson.toJson(object).getBytes()))).subscribe();
     }
 }

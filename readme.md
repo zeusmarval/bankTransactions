@@ -3,7 +3,7 @@ mensaje de error que tenga la información de la transacción para que
 elimine la transacción
 
 
-                    
+                     
 Crear un servicio dentro de este mismo proyecto que funcione como cloud watch
 en donde mandemos todas las acciones que se realizan con un mensaje
 y que deje la evidencia de la acción realizada

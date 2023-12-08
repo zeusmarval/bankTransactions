@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=root
+#      - MONGO_INITDB_ROOT_PASSWORD=password
+
+#  rabbitmq:
+#    image: "rabbitmq:3-management"
+#    container_name: rabbitmq
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
+#    environment:
+#      RABBITMQ_DEFAULT_USER: guest
+#      RABBITMQ_DEFAULT_PASS: guest*/
+
+  bank-transactions-spring:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bank-transactions-spring
+    #environment:
+      #- MONGO_USERNAME=root
+      #- MONGO_PASSWORD=password
+      #- MONGO_DB=test
+      #- MONGO_HOST=mongodb
+      #- APP_PORT=27017
+    ports:
+      - "8086:8086"
+    depends_on:
+      - mongodb
+      #- rabbitmq
+
+volumes:
+  mongo-data:

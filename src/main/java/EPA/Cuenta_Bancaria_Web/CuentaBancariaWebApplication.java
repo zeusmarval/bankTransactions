@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
+
 @SpringBootApplication
 public class CuentaBancariaWebApplication {
 
@@ -29,6 +31,6 @@ public class CuentaBancariaWebApplication {
 
 	@PreDestroy
 	public void close() throws Exception {
-		connectionMono.block().close();
-	}
+        Objects.requireNonNull(connectionMono.block()).close();
+    }
 }
