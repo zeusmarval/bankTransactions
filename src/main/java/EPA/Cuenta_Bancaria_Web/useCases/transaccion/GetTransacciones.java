@@ -5,6 +5,8 @@ import EPA.Cuenta_Bancaria_Web.drivenAdapters.repositorios.I_Repositorio_Transac
 import EPA.Cuenta_Bancaria_Web.models.DTO.M_Cliente_DTO;
 import EPA.Cuenta_Bancaria_Web.models.DTO.M_Cuenta_DTO;
 import EPA.Cuenta_Bancaria_Web.models.DTO.M_Transaccion_DTO;
+import EPA.Cuenta_Bancaria_Web.models.Mongo.M_ClienteMongo;
+import EPA.Cuenta_Bancaria_Web.models.Mongo.M_CuentaMongo;
 import EPA.Cuenta_Bancaria_Web.models.Mongo.M_TransaccionMongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,30 +26,30 @@ public class GetTransacciones {
     @Autowired
     private RabbitMqPublisher eventBus;
     public Mono<ServerResponse> apply(ServerRequest request) {
-        Flux<M_TransaccionMongo> transaccionesFlux = iRepositorioTransaccionMongo.findAll();
-
-        return transaccionesFlux.map(transaccion -> new M_Transaccion_DTO(transaccion.getId(),
-                new M_Cuenta_DTO(transaccion.getCuenta().getId(),
-                        new M_Cliente_DTO(transaccion.getCuenta().getCliente().getId(),
-                                transaccion.getCuenta().getCliente().getNombre()
+        Flux<M_TransaccionMongo> transacciones = iRepositorioTransaccionMongo.findAll();
+        return transacciones.map(transaccion -> new M_Transaccion_DTO(transaccion.getId(),
+                        new M_Cuenta_DTO(transaccion.getCuenta().getId(),
+                                new M_Cliente_DTO(transaccion.getCuenta().getCliente().getId(),
+                                        transaccion.getCuenta().getCliente().getNombre()
+                                ),
+                                transaccion.getCuenta().getSaldo_Global()
                         ),
-                        transaccion.getCuenta().getSaldo_Global()
-                ),
-                transaccion.getMonto_transaccion(),
-                transaccion.getSaldo_inicial(),
-                transaccion.getSaldo_final(),
-                transaccion.getCosto_tansaccion(),
-                transaccion.getTipo()
-        )).collectList()
+                        transaccion.getMonto_transaccion(),
+                        transaccion.getSaldo_inicial(),
+                        transaccion.getSaldo_final(),
+                        transaccion.getCosto_tansaccion(),
+                        transaccion.getTipo()
+                )).collectList()
                 .flatMap(transaccionesList ->
-                        ServerResponse.ok()
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .body(BodyInserters.fromValue(transaccionesList))
-                                .doOnSuccess(success -> eventBus.publishAll(transaccionesList))
+                        {
+                            eventBus.publishAll(transaccionesList);
+                            return ServerResponse.ok()
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .body(BodyInserters.fromValue(transaccionesList));
+                        }
                 )
                 .switchIfEmpty(ServerResponse.notFound().build())
                 .onErrorResume(this::handleError);
-
     }
 
     private Mono<ServerResponse> handleError(Throwable error) {

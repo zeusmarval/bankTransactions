@@ -25,11 +25,13 @@ public class GetCuentasError {
     public Mono<ServerResponse> apply(ServerRequest request) {
         Flux<M_CuentaMongo> cuenta = iRepositorioCuentaMongo.findAll();
         return cuenta.collectList()
-                .flatMap(transaccione -> Mono.error(new RuntimeException("error en cuenta")))
-                .flatMap(cuentaList -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromValue(cuentaList))
-                        .doOnSuccess(success -> eventBus.publishAll(cuenta))
+                .flatMap(transaccione -> Mono.error(new RuntimeException("error en listar cuentas")))
+                .flatMap(cuentaList -> {
+                            eventBus.publishAll(cuentaList);
+                            return ServerResponse.ok()
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .body(BodyInserters.fromValue(cuentaList));
+                        }
                 )
                 .switchIfEmpty(ServerResponse.notFound().build())
                 .onErrorResume(this::handleError);
@@ -37,6 +39,7 @@ public class GetCuentasError {
 
     private Mono<ServerResponse> handleError(Throwable error) {
         eventBus.publishError(error.getMessage());
+        System.out.println(error.getMessage());
         return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue("Error al obtener la lista de cuentas"));

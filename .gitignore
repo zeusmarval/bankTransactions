@@ -33,4 +33,5 @@ build/
 .vscode/
 
 # Ignorar archivos grandes en mongo-data/journal
-mongo-data/
+mongo-data/*
+mongo-data/journal

@@ -38,12 +38,14 @@ public class GetTransaccionError {
                         transaccion.getCosto_tansaccion(),
                         transaccion.getTipo()
                 )).collectList()
-                .flatMap(transaccione -> Mono.error(new RuntimeException("err transaction")))
+                .flatMap(transaccione -> Mono.error(new RuntimeException("error al obtener transacciones")))
                 .flatMap(transaccionesList ->
-                        ServerResponse.ok()
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .body(BodyInserters.fromValue(transaccionesList))
-                                .doOnSuccess(success -> eventBus.publishAll(transaccionesList))
+                        {
+                            eventBus.publishAll(transaccionesList);
+                            return ServerResponse.ok()
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .body(BodyInserters.fromValue(transaccionesList));
+                        }
                 )
                 .switchIfEmpty(ServerResponse.notFound().build())
                 .onErrorResume(this::handleError);

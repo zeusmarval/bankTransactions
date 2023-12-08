@@ -24,23 +24,22 @@ public class CreateCuentaError {
     public Mono<ServerResponse> apply(ServerRequest request) {
         Mono<M_Cuenta_DTO> cuentaMono = request.bodyToMono(M_Cuenta_DTO.class);
 
-        //final M_Cuenta_DTO[] cuentaDTOContainer = new M_Cuenta_DTO[1];
-
         return cuentaMono
-                .flatMap(cuentaDTO -> cuentaResource.crearCuenta(cuentaDTO)
-                        .flatMap(cuenta -> ServerResponse.status(HttpStatus.CREATED)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .body(BodyInserters.fromValue(cuenta))
-                                        .doFinally(fini -> eventBus.publishAccountsError(cuenta))
-                                )
+                .flatMap(cuentaDTO -> {
+                            return cuentaResource.crearCuenta(cuentaDTO)
+                                    .flatMap(mCuentaDto -> Mono.error(new RuntimeException("error en listar cuentas")))
+                                    .flatMap(cuenta -> ServerResponse.status(HttpStatus.CREATED)
+                                            .contentType(MediaType.APPLICATION_JSON)
+                                            .body(BodyInserters.fromValue(cuenta))
+
+                                    ).onErrorResume(this::handleError);
+                        }
                 )
-                .switchIfEmpty(ServerResponse.badRequest().build())
-                .onErrorResume(this::handleError);
+                .switchIfEmpty(ServerResponse.badRequest().build());
     }
 
     private Mono<ServerResponse> handleError(Throwable error) {
         eventBus.publishError(error.getMessage());
-
         return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue("Error en la creación de la cuenta"));

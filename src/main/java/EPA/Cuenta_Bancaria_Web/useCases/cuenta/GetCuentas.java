@@ -2,6 +2,8 @@ package EPA.Cuenta_Bancaria_Web.useCases.cuenta;
 
 import EPA.Cuenta_Bancaria_Web.drivenAdapters.bus.RabbitMqPublisher;
 import EPA.Cuenta_Bancaria_Web.drivenAdapters.repositorios.I_RepositorioCuentaMongo;
+import EPA.Cuenta_Bancaria_Web.models.DTO.M_Cliente_DTO;
+import EPA.Cuenta_Bancaria_Web.models.DTO.M_Cuenta_DTO;
 import EPA.Cuenta_Bancaria_Web.models.Mongo.M_CuentaMongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,8 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.stream.Collectors;
 
 @Service
 public class GetCuentas {
@@ -24,11 +28,14 @@ public class GetCuentas {
 
     public Mono<ServerResponse> apply(ServerRequest request) {
         Flux<M_CuentaMongo> cuenta = iRepositorioCuentaMongo.findAll();
+
         return cuenta.collectList()
-                .flatMap(cuentaList -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromValue(cuentaList))
-                        .doOnSuccess(success -> eventBus.publishAll(cuenta))
+                .flatMap(cuentaList -> {
+                            eventBus.publishAll(cuentaList);
+                            return ServerResponse.ok()
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .body(BodyInserters.fromValue(cuentaList));
+                        }
                 )
                 .switchIfEmpty(ServerResponse.notFound().build())
                 .onErrorResume(this::handleError);

@@ -31,7 +31,7 @@ public class C_Transaccion {
                 .GET("/Transacciones/listar_transacciones", accept(MediaType.APPLICATION_JSON), getTransacciones::apply)
                 .GET("/Transacciones/listar_transacciones/error", accept(MediaType.APPLICATION_JSON), getTransaccionError::apply)
                 .POST("/Transacciones/Crear/Deposito/{tipo}/{id_Cuenta}/{monto}", createDeposito::apply)
-                .POST("/Transacciones/error/Crear/Deposito/{tipo}/{id_Cuenta}/{monto}", createDepositoError::apply)
+                .POST("/Transacciones/Crear/Deposito/{tipo}/{id_Cuenta}/{monto}/error", createDepositoError::apply)
                 .build();
     }
 

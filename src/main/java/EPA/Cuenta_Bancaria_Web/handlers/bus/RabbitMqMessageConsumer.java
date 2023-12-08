@@ -25,7 +25,7 @@ public class RabbitMqMessageConsumer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        receiver.consumeAutoAck(RabbitConfig.QUEUE_NAME_TRANSACTIONS)
+        /*receiver.consumeAutoAck(RabbitConfig.QUEUE_NAME_TRANSACTIONS)
                 .map(message -> {
                     M_Transaccion_DTO transaccion = gson
                             .fromJson(new String(message.getBody()),
@@ -43,7 +43,7 @@ public class RabbitMqMessageConsumer implements CommandLineRunner {
 
                     System.out.println("La cuenta creada fue:  " + cuenta);
                     return cuenta;
-                }).subscribe();
+                }).subscribe();*/
 
     }
 

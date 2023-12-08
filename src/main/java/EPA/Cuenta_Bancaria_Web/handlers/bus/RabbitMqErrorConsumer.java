@@ -35,7 +35,7 @@ public class RabbitMqErrorConsumer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        receiver.consumeAutoAck(RabbitConfig.QUEUE_NAME_ERRORS_TRANSACTIONS)
+        /*receiver.consumeAutoAck(RabbitConfig.QUEUE_NAME_ERRORS_TRANSACTIONS)
                 .map(message -> {
                     String errorMessage = new String(message.getBody());
                     System.err.println("Error en crear transaccion: " + errorMessage);
@@ -78,6 +78,6 @@ public class RabbitMqErrorConsumer implements CommandLineRunner {
 
                     return errorMessage;
 
-                }).subscribe();
+                }).subscribe();*/
     }
 }

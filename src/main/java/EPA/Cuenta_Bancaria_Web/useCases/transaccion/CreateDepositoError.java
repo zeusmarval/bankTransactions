@@ -38,8 +38,7 @@ public class CreateDepositoError {
                             return ServerResponse.status(HttpStatus.CREATED)
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .body(BodyInserters.fromValue(transaccionDTO))
-                                    .switchIfEmpty(ServerResponse.badRequest().build())
-                                    .doFinally(fini -> eventBus.publishTransaccionsError(transaccionDTO));
+                                    .switchIfEmpty(ServerResponse.badRequest().build());
                         }
                 )
                 .onErrorResume(error -> handleError(error, transaccionDTOContainer[0]));
